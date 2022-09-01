@@ -1,0 +1,28 @@
+name: CalderaSB
+version: '${project.version}'
+main: com.starbotapi.caldera.Caldera
+api-version: 1.8.8
+prefix: Caldera
+authors: [ TFTWPhoenix ]
+description: idk
+commands:
+  spawnitem:
+    description: Spawn an item
+    aliases:
+      - si
+      - i
+  prefabs:
+    description: Shows a menu of prefabs.
+    aliases:
+      - pf
+      - prefab
+  updateitem:
+    description: For when yu damn item wont update
+    aliases:
+      - ui
+  itemeditor:
+    description: item editor
+    aliases:
+      - ie
+      - edit
+      - editor
