@@ -6,11 +6,9 @@ Toolkit for making a game in Minecraft.
 - [x] Spigot (or derivatives) 1.8.8 server
 - [x] Java 1.8
 
-### To-do
-- [ ] Code cleanup (phoenix fix your code bozo)
-- [ ] Ability GUI
-- [ ] Item Editor GUI (the current CLI one is pretty bad)
-- [ ] Inventory storage to databases
-- [ ] Crafting
-- [ ] Skill level system
-- [ ] Gathering systems
+### Features
+- [x] Stats System
+- [x] Custom Items
+- [x] Item Abilities
+- [x] Custom Mobs
+- [x] Command-based Item Editor (GUI-based version & improved CLI-based version coming soon)
