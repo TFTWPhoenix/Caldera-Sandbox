@@ -25,7 +25,10 @@ public class ItemEditorCommand implements CommandExecutor {
         if(cd == null) cd = new NBTTagCompound();
 
         if(strings[0].startsWith("stat_")) {
-            cd.setInt(strings[0],Integer.parseInt(strings[1]));
+            CalderaItem ci = CalderaItem.fromCraft(held);
+            ci.stats.put(strings[0].split("stat_")[1],Integer.parseInt(strings[1]));
+            p.setItemInHand(ci.asCraft());
+            return false;
         } else {
             switch (strings[0]) {
                 case "name":
