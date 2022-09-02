@@ -10,8 +10,8 @@ public class IPEnderSword extends CalderaItem {
         id = "[calderaprefab]ender_sword";
         itemtype = "Sword";
         effectiveslot = 4;
-        damage = 20;
-        this.manapool = 100;
+        stats.put("damage",20);
+        stats.put("max_mana",100);
         abilityText = new String[]{
                 "\2476Right Click Ability: Ender Warp",
                 "Teleport 8 blocks ahead of you.",

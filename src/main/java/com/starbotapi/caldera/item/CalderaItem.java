@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.starbotapi.caldera.Caldera;
 import com.starbotapi.caldera.stats.PlayerStatsObject;
+import com.starbotapi.caldera.stats.StatsManager;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -31,17 +32,7 @@ public class CalderaItem {
     public int effectiveslot = -1;
     public String setID = "";
 
-    public int health = 0;
-    public int defense = 0;
-    public int intelligence = 0;
-    public int manapool = 0;
-    public int stamina = 0;
-    public int damage = 0;
-    public int strength = 0;
-    public int critchance = 0;
-    public int critdamage = 0;
-    public int speed = 0;
-    public int basemagicdamage = 0;
+    public Map<String,Integer> stats = new HashMap<>();
 
     public Consumer<PlayerInteractEvent> interact = e -> {};
     public Consumer<PlayerStatsObject> tick = o -> {};
@@ -70,20 +61,10 @@ public class CalderaItem {
         copy.itemtype = itemtype;
         copy.texture = texture;
         copy.effectiveslot = effectiveslot;
-        copy.health = health;
-        copy.defense = defense;
-        copy.intelligence = intelligence;
-        copy.manapool = manapool;
-        copy.stamina = stamina;
-        copy.damage = damage;
-        copy.strength = strength;
-        copy.critchance = critchance;
-        copy.critdamage = critdamage;
-        copy.speed = speed;
+        copy.stats = stats;
         copy.interact = interact;
         copy.tick = tick;
         copy.abilityText = abilityText;
-        copy.basemagicdamage = basemagicdamage;
         copy.setID = setID;
         copy.colorLeather = colorLeather;
         copy.leatherColor = leatherColor;
@@ -104,16 +85,11 @@ public class CalderaItem {
         m.setDisplayName(rarity.color() + displayName);
 
         List<String> lore = new ArrayList<>();
-        if(damage != 0) lore.add("\2477Damage: \2474" + damage);
-        if(strength != 0) lore.add("\2477Strength: \247c" + strength + "%");
-        if(critchance != 0) lore.add("\2477Critical Chance: \247c" + (critchance) + "%");
-        if(critdamage != 0) lore.add("\2477Critical Multiplier: \2479" + ((double) critdamage / 100.0) + "x");
-        if(health != 0) lore.add("\2477Health: \247d" + health);
-        if(defense != 0) lore.add("\2477Defense: \2472" + defense);
-        if(intelligence != 0) lore.add("\2477Intelligence: \247b" + intelligence);
-        if(manapool != 0) lore.add("\2477Mana Pool: \2473" + manapool);
-        if(speed != 0) lore.add("\2477Speed: \247f" + speed);
-        if(basemagicdamage != 0) lore.add("\2477Magic Damage: \2475" + basemagicdamage);
+        for(String s : stats.keySet()) {
+            String name = s;
+            if(StatsManager.statDisplayNames.containsKey(s)) name = StatsManager.statDisplayNames.get(s);
+            lore.add("\2477" + name + "\2478:\247c " + stats.get(s));
+        }
 
         if(!lore.isEmpty()) lore.add("\2477");
         boolean abil = false;
@@ -144,16 +120,13 @@ public class CalderaItem {
         cd.setString("item_type",itemtype);
         cd.setString("texture",texture.toString());
         cd.setInt("effectiveslot",effectiveslot);
-        cd.setInt("stat_damage",damage);
-        cd.setInt("stat_strength",strength);
-        cd.setInt("stat_critchance",critchance);
-        cd.setInt("stat_critdamage",critdamage);
-        cd.setInt("stat_health",health);
-        cd.setInt("stat_defense",defense);
-        cd.setInt("stat_intelligence",intelligence);
-        cd.setInt("stat_manapool",manapool);
-        cd.setInt("stat_speed",speed);
-        cd.setInt("stat_basemagicdamage",basemagicdamage);
+        String statslist = "";
+        for(String s : stats.keySet()) {
+            cd.setInt("stat_" + s,stats.get(s));
+            if(!statslist.equals("")) statslist += ",";
+            statslist += s;
+        }
+        cd.setString("stats",statslist);
         cd.setString("setid",setID);
         cd.setBoolean("has_leather_color",colorLeather);
         cd.setInt("leather_color", leatherColor.asRGB());
@@ -208,16 +181,10 @@ public class CalderaItem {
         ci.itemtype = cd.getString("item_type");
         ci.texture = ((cd.getString("texture").equals("") ? Material.AIR : Material.valueOf(cd.getString("texture"))));
         ci.effectiveslot = cd.getInt("effectiveslot");
-        ci.damage = cd.getInt("stat_damage");
-        ci.strength = cd.getInt("stat_strength");
-        ci.critchance = cd.getInt("stat_critchance");
-        ci.critdamage = cd.getInt("stat_critdamage");
-        ci.health = cd.getInt("stat_health");
-        ci.defense = cd.getInt("stat_defense");
-        ci.intelligence = cd.getInt("stat_intelligence");
-        ci.manapool = cd.getInt("stat_manapool");
-        ci.speed = cd.getInt("stat_speed");
-        ci.basemagicdamage = cd.getInt("stat_basemagicdamage");
+        String[] stats = cd.getString("stats").split(",");
+        for(String s : stats) {
+            ci.stats.put(s,cd.getInt("stat_" + s));
+        }
         ci.setID = cd.getString("setid");
         ci.colorLeather = cd.getBoolean("has_leather_color");
         ci.leatherColor = Color.fromRGB(cd.getInt("leather_color"));

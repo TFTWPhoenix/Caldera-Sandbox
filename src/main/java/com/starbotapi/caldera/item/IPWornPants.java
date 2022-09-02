@@ -11,7 +11,7 @@ public class IPWornPants extends CalderaItem {
         id = "[calderaprefab]worn_pants";
         itemtype = "Leggings";
         effectiveslot = 2;
-        defense = 10;
+        stats.put("defense",10);
         rarity = CalderaRarity.COMMON;
         comment = "the true classic";
         colorLeather = true;

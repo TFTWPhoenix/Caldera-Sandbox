@@ -11,8 +11,22 @@ import java.util.Map;
 public class StatsManager {
 
     public static Map<Entity,StatsObject> statsObjects = new HashMap<>();
+    public static Map<String,String> statDisplayNames = new HashMap<>();
 
     public static void run() {
+        statDisplayNames.put("max_health","Maximum Health");
+        statDisplayNames.put("defense","Defense");
+        statDisplayNames.put("max_mana","Maximum Mana");
+        statDisplayNames.put("health","Health");
+        statDisplayNames.put("mana","Mana");
+        statDisplayNames.put("intelligence","Intelligence");
+        statDisplayNames.put("damage","Damage");
+        statDisplayNames.put("strength","Strength");
+        statDisplayNames.put("critchance","Critical Chance");
+        statDisplayNames.put("critdamage","Critical Damage");
+        statDisplayNames.put("speed","Speed");
+        statDisplayNames.put("magicdamage","Magic Damage");
+
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Caldera.p,()->{
             for(World w : Bukkit.getWorlds()) {
                 for(Entity e : w.getEntities()) {

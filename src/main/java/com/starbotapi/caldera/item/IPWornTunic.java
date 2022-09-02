@@ -11,7 +11,7 @@ public class IPWornTunic extends CalderaItem {
         id = "[calderaprefab]worn_tunic";
         itemtype = "Chestplate";
         effectiveslot = 1;
-        defense = 10;
+        stats.put("defense",10);
         rarity = CalderaRarity.COMMON;
         comment = "the true classic";
         colorLeather = true;

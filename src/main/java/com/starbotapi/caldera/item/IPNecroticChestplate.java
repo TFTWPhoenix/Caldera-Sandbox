@@ -11,9 +11,9 @@ public class IPNecroticChestplate extends CalderaItem {
         id = "[calderaprefab]necrotic_chestplate";
         itemtype = "Chestplate";
         effectiveslot = 1;
-        health = 20;
-        defense = 80;
-        strength = 10;
+        stats.put("max_health",20);
+        stats.put("defense",80);
+        stats.put("strength",10);
         rarity = CalderaRarity.RARE;
         comment = "idk man";
         colorLeather = true;

@@ -11,9 +11,9 @@ public class IPNecroticHelmet extends CalderaItem {
         id = "[calderaprefab]necrotic_helmet";
         itemtype = "Helmet";
         effectiveslot = 0;
-        health = 10;
-        defense = 40;
-        strength = 10;
+        stats.put("max_health",10);
+        stats.put("defense",40);
+        stats.put("strength",10);
         rarity = CalderaRarity.RARE;
         comment = "idk man";
         colorLeather = true;

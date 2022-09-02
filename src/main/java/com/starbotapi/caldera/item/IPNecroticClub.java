@@ -10,8 +10,8 @@ public class IPNecroticClub extends CalderaItem {
         id = "[calderaprefab]necrotic_club";
         itemtype = "Club";
         effectiveslot = 4;
-        damage = 50;
-        strength = 25;
+        stats.put("damage",50);
+        stats.put("strength",25);
         rarity = CalderaRarity.RARE;
     }
 

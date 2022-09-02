@@ -10,10 +10,11 @@ public class IPAssassinsTouch extends CalderaItem {
         id = "[calderaprefab/volcaniclegend]assassins_touch";
         itemtype = "Dagger \2478(Legacy Item)";
         effectiveslot = 4;
-        damage = 650;
-        strength = 200;
-        critchance = 20;
-        critdamage = 600;
+        stats.put("damage",650);
+        stats.put("strength",200);
+        stats.put("critchance",20);
+        stats.put("critdamage",600);
+
         rarity = CalderaRarity.MYTHIC;
         comment = "feels good to hold one of these again";
     }

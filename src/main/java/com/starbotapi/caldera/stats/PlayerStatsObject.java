@@ -13,47 +13,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class PlayerStatsObject implements StatsObject {
 
     private Player player;
 
-    // RESOURCES
-    public int maxhealth = 100;
-    public int health = 100;
-    public int maxmana = 100;
-    public int mana = 100;
-
-    // VALUES
-    public int defense = 0;
-    public int damage = 5;
-    public int strength = 0;
-    public int critchance = 0;
-    public int critdamage = 0;
-    public int speed = 100;
-    public int intelligence = 0;
-    public int basemagicdamage = 5;
-
-    // TICKERS
-    public int regentick = 0;
-
-    // WORKING
-    public int mhp;
-    public int hp;
-    public int mmp;
-    public int mp;
-    public int def;
-    public int dmg;
-    public int str;
-    public int cc;
-    public int cd;
-    public int spd;
-    public int inl;
-    public int bmd;
+    public Map<String,Integer> stats = new HashMap<>();
+    public Map<String,Integer> tickers = new HashMap<>();
+    public Map<String,Integer> working = new HashMap<>();
 
     public PlayerStatsObject(Player player) {
         this.player = player;
+        stats.put("health",100);
+        stats.put("mana",100);
     }
 
     @Override
@@ -73,25 +47,25 @@ public class PlayerStatsObject implements StatsObject {
 
     @Override
     public int getMaximumHealth() {
-        return maxhealth;
+        return stats.get("max_health");
     }
 
     @Override
     public int getHealth() {
-        return health;
+        return stats.get("health");
     }
 
     @Override
     public double getDamageReduction() {
-        return (double) defense / ((double) defense + 100.0);
+        return (double) stats.get("defense") / ((double) stats.get("defense") + 100.0);
     }
 
     @Override
     public void damage(int x) {
         int f = (int) (x - (x * getDamageReduction()));
-        health -= f;
-        if(health <= 0) {
-            health = maxhealth / 2;
+        stats.put("health",stats.get("health") - f);
+        if(stats.get("health") <= 0) {
+            stats.put("health",stats.get("max_health") / 2);
             player.teleport(new Location(Bukkit.getWorld("world"),-75,73,262));
             player.sendMessage("\2477You died!");
         }
@@ -99,27 +73,24 @@ public class PlayerStatsObject implements StatsObject {
 
     @Override
     public void heal(int x) {
-        int newhealth = health + x;
-        if(newhealth > maxhealth) newhealth = maxhealth;
-        health = newhealth;
+        int newhealth = stats.get("health") + x;
+        if(newhealth > stats.get("max_health")) newhealth = stats.get("max_health");
+        stats.put("health",newhealth);
     }
 
     @Override
     public void tick() {
-        regentick++;
+        tickers.putIfAbsent("health_regen",0);
+        tickers.put("health_regen",tickers.get("health_regen") + 1);
+        working.clear();
 
-        mhp = 100;
-        hp = health;
-        mmp = 100;
-        mp = mana;
-        def = 0;
-        dmg = 5;
-        str = 0;
-        cc = 0;
-        cd = 0;
-        spd = 100;
-        inl = 0;
-        bmd = 0;
+        working.put("max_health",100);
+        working.put("health",stats.get("health"));
+        working.put("speed",100);
+        working.put("max_mana",100);
+        working.put("mana",stats.get("mana"));
+        working.put("damage",5);
+        working.put("defense",0);
 
         ItemStack[] equipment = {
                 player.getEquipment().getHelmet(),
@@ -132,16 +103,10 @@ public class PlayerStatsObject implements StatsObject {
         for(int i = 0; i < equipment.length; i++) {
             CalderaItem ci = CalderaItem.fromCraft(equipment[i]);
             if(ci.effectiveslot != i) continue;
-            mhp += ci.health;
-            def += ci.defense;
-            mmp += ci.manapool;
-            dmg += ci.damage;
-            str += ci.strength;
-            cc += ci.critchance;
-            cd += ci.critdamage;
-            spd += ci.speed;
-            inl += ci.intelligence;
-            bmd += ci.basemagicdamage;
+            for(String s : ci.stats.keySet()) {
+                working.putIfAbsent(s,0);
+                working.put(s,working.get(s) + ci.stats.get(s));
+            }
             if(!ci.setID.equals("")) {
                 sets.putIfAbsent(ci.setID,0);
                 sets.put(ci.setID,sets.get(ci.setID) + 1);
@@ -156,63 +121,62 @@ public class PlayerStatsObject implements StatsObject {
             Caldera.setFromID(s).tick.accept(this,sets.get(s));
         }
 
-        if(regentick >= 5) {
-            regentick = 0;
-            int hprg = (int) (hp + mhp * 0.01);
-            int mprg = 5 + (int) (mp + mmp * 0.01);
-            if(hprg > mhp) hprg = mhp;
-            if(mprg > mmp) mprg = mmp;
+        if(tickers.get("health_regen") >= 5) {
+            tickers.put("health_regen",0);
+            int hprg = (int) (working.get("health") + working.get("max_health") * 0.01);
+            int mprg = 5 + (int) (working.get("mana") + working.get("max_mana") * 0.01);
+            if(hprg > working.get("max_health")) hprg = working.get("max_health");
+            if(mprg > working.get("max_mana")) mprg = working.get("max_mana");
 
-            hp = hprg;
-            mp = mprg;
+            working.put("health",hprg);
+            working.put("mana",mprg);
         }
 
-        player.setWalkSpeed(0.002F * spd);
+        player.setWalkSpeed(0.002F * working.get("speed"));
 
-        double hpperc = (double) hp / (double) mhp;
+        double hpperc = (double) working.get("health") / (double) working.get("max_health");
         double hprep = 20.0 * hpperc;
         if(hprep <= 0) hprep = 1;
         if(hprep > 20) hprep = 20;
         player.setHealth(hprep);
 
-        String bar = "\247c" + hp + "%health-icon%" + mhp + " \247a" + def + "%defense-icon% \247b" + mp + "%mana-icon%" + mmp;
+        String bar = "\247c" + working.get("health") + "%health-icon%" + working.get("max_health") + " \247a" + working.get("defense") + "%defense-icon% \247b" + working.get("mana") + "%mana-icon%" + working.get("max_mana");
         bar = SymbolUtil.applySymbols(bar,"JAVA");
         PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + bar + "\"}"), (byte) 2);
         ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packetPlayOutChat);
 
-        maxhealth = mhp;
-        health = hp;
-        maxmana = mmp;
-        mana = mp;
-        defense = def;
-        damage = dmg;
-        strength = str;
-        critchance = cc;
-        critdamage = cd;
-        speed = spd;
-        intelligence = inl;
-        basemagicdamage = bmd;
+        for(String s : working.keySet()) {
+            stats.put(s,working.get(s));
+        }
 
+    }
+
+    public int getValueOfStat(String s) {
+        if(stats.containsKey(s)) {
+            return stats.get(s);
+        } else {
+            return 0;
+        }
     }
 
     @Override
     public int calcDamage() {
-        int dmg = (int) (damage + (damage * (0.01 * strength)));
+        int dmg = (int) (getValueOfStat("damage")  + (getValueOfStat("damage")  * (0.01 * getValueOfStat("strength"))));
         int rng = (new Random()).nextInt(100);
-        if(rng <= critchance) {
-            dmg += damage * (0.01 * critdamage);
+        if(rng <= getValueOfStat("critchance") ) {
+            dmg += getValueOfStat("damage")  * (0.01 * getValueOfStat("critdamage") );
         }
         return dmg;
     }
 
     public int calcMagicDamage() {
-        int dmg = (int) (basemagicdamage + (basemagicdamage * (0.01 * intelligence)));
+        int dmg = (int) (getValueOfStat("magicdamage")  + (getValueOfStat("magicdamage")  * (0.01 * getValueOfStat("intelligence"))));
         return dmg;
     }
 
     public boolean useMana(int x) {
-        if(mana >= x) {
-            mana -= x;
+        if(getValueOfStat("mana") >= x) {
+            stats.put("mana",stats.get("mana") - x);
             return true;
         }
         return false;

@@ -11,9 +11,9 @@ public class IPNecroticBoots extends CalderaItem {
         id = "[calderaprefab]necrotic_boots";
         itemtype = "Boots";
         effectiveslot = 3;
-        health = 5;
-        defense = 20;
-        strength = 10;
+        stats.put("max_health",5);
+        stats.put("defense",20);
+        stats.put("strength",10);
         rarity = CalderaRarity.RARE;
         comment = "idk man";
         colorLeather = true;

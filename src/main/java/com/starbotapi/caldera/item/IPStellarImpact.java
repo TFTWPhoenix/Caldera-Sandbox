@@ -10,8 +10,8 @@ public class IPStellarImpact extends CalderaItem {
         id = "[calderaprefab]stellarimpact";
         itemtype = "Item";
         effectiveslot = 4;
-        basemagicdamage = 200;
-        manapool = 500;
+        stats.put("magicdamage",200);
+        stats.put("max_mana",500);
         abilityText = new String[]{
                 "\2476Right Click Ability: Impact",
                 "Create a large explosion at your location",

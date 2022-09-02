@@ -10,8 +10,8 @@ public class IPFireburstStaff extends CalderaItem {
         id = "[calderaprefab]fireburst_wand";
         itemtype = "Wand";
         effectiveslot = 4;
-        basemagicdamage = 20;
-        manapool = 50;
+        stats.put("magicdamage",20);
+        stats.put("max_mana",50);
         abilityText = new String[]{
                 "\2476Right Click Ability: Fireball",
                 "Shoot a fireball in the direction",

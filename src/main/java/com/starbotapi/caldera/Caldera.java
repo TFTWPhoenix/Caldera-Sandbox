@@ -77,7 +77,6 @@ public final class Caldera extends JavaPlugin {
         getCommand("updateitem").setExecutor(new UpdateItemCommand());
         getCommand("itemeditor").setExecutor(new ItemEditorCommand());
 
-        item_prefabs.add(new IPTestItem());
         item_prefabs.add(new IPAssassinsTouch());
         item_prefabs.add(new IPEnderSword());
         item_prefabs.add(new IPWornBoots());

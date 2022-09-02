@@ -11,9 +11,9 @@ public class IPNecroticLeggings extends CalderaItem {
         id = "[calderaprefab]necrotic_leggings";
         itemtype = "Leggings";
         effectiveslot = 2;
-        health = 15;
-        defense = 60;
-        strength = 10;
+        stats.put("max_health",15);
+        stats.put("defense",60);
+        stats.put("strength",10);
         rarity = CalderaRarity.RARE;
         comment = "idk man";
         colorLeather = true;

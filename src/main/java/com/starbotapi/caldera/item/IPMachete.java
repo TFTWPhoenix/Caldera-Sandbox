@@ -10,8 +10,8 @@ public class IPMachete extends CalderaItem {
         id = "[calderaprefab]machete";
         itemtype = "Sword";
         effectiveslot = 4;
-        damage = 20;
-        strength = 10;
+        stats.put("damage",20);
+        stats.put("strength",10);
         comment = "the true classic";
     }
 
