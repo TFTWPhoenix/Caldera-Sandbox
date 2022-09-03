@@ -145,6 +145,7 @@ public class PlayerStatsObject implements StatsObject {
         PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + bar + "\"}"), (byte) 2);
         ((CraftPlayer)player).getHandle().playerConnection.sendPacket(packetPlayOutChat);
 
+        stats.clear();
         for(String s : working.keySet()) {
             stats.put(s,working.get(s));
         }
