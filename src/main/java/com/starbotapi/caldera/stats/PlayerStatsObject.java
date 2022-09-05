@@ -24,6 +24,8 @@ public class PlayerStatsObject implements StatsObject {
     public Map<String,Integer> tickers = new HashMap<>();
     public Map<String,Integer> working = new HashMap<>();
 
+    public Location respawnPoint = null;
+
     public PlayerStatsObject(Player player) {
         this.player = player;
         stats.put("health",100);
@@ -66,7 +68,7 @@ public class PlayerStatsObject implements StatsObject {
         stats.put("health",stats.get("health") - f);
         if(stats.get("health") <= 0) {
             stats.put("health",stats.get("max_health") / 2);
-            player.teleport(new Location(Bukkit.getWorld("world"),-75,73,262));
+            player.teleport(((respawnPoint != null) ? respawnPoint : new Location(player.getWorld(),0,player.getWorld().getHighestBlockYAt(0,0),0)));
             player.sendMessage("\2477You died!");
         }
     }
