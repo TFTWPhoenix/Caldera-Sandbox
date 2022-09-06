@@ -2,6 +2,7 @@ package com.starbotapi.caldera.stats;
 
 import com.starbotapi.caldera.Caldera;
 import com.starbotapi.caldera.item.CalderaItem;
+import com.starbotapi.caldera.region.RegionManager;
 import com.starbotapi.caldera.util.SymbolUtil;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -68,7 +69,7 @@ public class PlayerStatsObject implements StatsObject {
         stats.put("health",stats.get("health") - f);
         if(stats.get("health") <= 0) {
             stats.put("health",stats.get("max_health") / 2);
-            player.teleport(((respawnPoint != null) ? respawnPoint : new Location(player.getWorld(),0,player.getWorld().getHighestBlockYAt(0,0),0)));
+            player.teleport(RegionManager.getRegionOf(player.getLocation()).respawnPoint);
             player.sendMessage("\2477You died!");
         }
     }
