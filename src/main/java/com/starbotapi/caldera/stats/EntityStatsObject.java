@@ -1,5 +1,8 @@
 package com.starbotapi.caldera.stats;
 
+import com.starbotapi.caldera.Caldera;
+import com.starbotapi.caldera.mob.CalderaMob;
+import com.starbotapi.caldera.mob.MobDrop;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -10,6 +13,7 @@ public class EntityStatsObject implements StatsObject {
     private ArmorStand nametag;
 
     public String displayName;
+    public String id = "";
     public EntityType entityType = EntityType.NONE;
 
     public int maxhealth = 100;
@@ -61,8 +65,11 @@ public class EntityStatsObject implements StatsObject {
         sincelastdamage = 0;
         int dmg = (int) (x - (x * damagereduction));
         health -= dmg;
-        if(health <= 0) {
+        if(health <= 0 && !spigot.isDead()) {
             spigot.setHealth(0);
+            for(MobDrop d : Caldera.mobFromID(id).drops) {
+                d.run(spigot.getEyeLocation());
+            }
         }
     }
 

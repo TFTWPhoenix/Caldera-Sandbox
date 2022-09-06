@@ -99,6 +99,8 @@ public final class Caldera extends JavaPlugin {
         getCommand("updateitem").setExecutor(new UpdateItemCommand());
         getCommand("itemeditor").setExecutor(new ItemEditorCommand());
 
+        item_prefabs.add(new IPCalderaMenu());
+
         abilities.add(new FireballAbility());
         abilities.add(new WitherSkullAbility());
         abilities.add(new BowInstashootAbility());
@@ -116,7 +118,6 @@ public final class Caldera extends JavaPlugin {
         mobs.add(new NecroticZombie5BossMob());
         mobs.add(new SkeletalGuardMob());
 
-        item_prefabs.add(new IPCalderaMenu());
 
         CalderaMenuGUI.setButton(31, CalderaGUI.createGUIItem("\2473Crafting", Material.WORKBENCH,1,(byte)0,""), click ->{
             click.getWhoClicked().closeInventory();

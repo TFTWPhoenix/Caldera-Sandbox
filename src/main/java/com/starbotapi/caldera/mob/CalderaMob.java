@@ -26,6 +26,7 @@ public class CalderaMob {
     public int health = 100;
     public EntityType texture = EntityType.ZOMBIE;
     public com.starbotapi.caldera.stats.EntityType type = com.starbotapi.caldera.stats.EntityType.NONE;
+    public List<MobDrop> drops = new ArrayList<>();
 
     public CalderaMob() {
 
@@ -62,6 +63,7 @@ public class CalderaMob {
         so.maxhealth = health;
         so.health = health;
         so.entityType = type;
+        so.id = id;
         spawns2(entity,so);
         StatsManager.statsObjects.put(entity,so);
     }
