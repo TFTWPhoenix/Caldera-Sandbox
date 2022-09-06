@@ -77,20 +77,6 @@ public final class Caldera extends JavaPlugin {
         getCommand("updateitem").setExecutor(new UpdateItemCommand());
         getCommand("itemeditor").setExecutor(new ItemEditorCommand());
 
-        item_prefabs.add(new IPAssassinsTouch());
-        item_prefabs.add(new IPEnderSword());
-        item_prefabs.add(new IPWornBoots());
-        item_prefabs.add(new IPWornPants());
-        item_prefabs.add(new IPWornTunic());
-        item_prefabs.add(new IPMachete());
-        item_prefabs.add(new IPNecroticHelmet());
-        item_prefabs.add(new IPNecroticChestplate());
-        item_prefabs.add(new IPNecroticLeggings());
-        item_prefabs.add(new IPNecroticBoots());
-        item_prefabs.add(new IPNecroticClub());
-        item_prefabs.add(new IPFireburstStaff());
-        item_prefabs.add(new IPStellarImpact());
-
         abilities.add(new FireballAbility());
         abilities.add(new WitherSkullAbility());
         abilities.add(new BowInstashootAbility());
