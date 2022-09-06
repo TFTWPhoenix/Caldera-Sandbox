@@ -26,6 +26,9 @@ public class StatsManager {
         statDisplayNames.put("critdamage","Critical Damage");
         statDisplayNames.put("speed","Speed");
         statDisplayNames.put("magicdamage","Magic Damage");
+        statDisplayNames.put("toolpower","Tool Strength");
+        statDisplayNames.put("toolspeed","Tool Speed");
+        statDisplayNames.put("fortune","Fortune");
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(Caldera.p,()->{
             for(World w : Bukkit.getWorlds()) {

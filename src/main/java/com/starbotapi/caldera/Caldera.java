@@ -15,12 +15,10 @@ import com.starbotapi.caldera.gui.CalderaMenuGUI;
 import com.starbotapi.caldera.gui.CraftingGUI;
 import com.starbotapi.caldera.item.*;
 import com.starbotapi.caldera.mob.*;
-import com.starbotapi.caldera.region.Region;
 import com.starbotapi.caldera.region.RegionManager;
 import com.starbotapi.caldera.stats.StatsManager;
 import com.starbotapi.caldera.util.SymbolUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -29,7 +27,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class Caldera extends JavaPlugin {
 
