@@ -152,6 +152,7 @@ public class PlayerStatsObject implements StatsObject {
             stats.put(s,working.get(s));
         }
 
+        player.getInventory().setItem(8,Caldera.itemFromID("calderamenu").asCraft());
     }
 
     public int getValueOfStat(String s) {

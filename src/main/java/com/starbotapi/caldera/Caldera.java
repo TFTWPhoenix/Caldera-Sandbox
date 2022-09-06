@@ -8,6 +8,7 @@ import com.starbotapi.caldera.command.UpdateItemCommand;
 import com.starbotapi.caldera.event.ConnectionEvents;
 import com.starbotapi.caldera.event.DamageEvents;
 import com.starbotapi.caldera.event.InteractEvents;
+import com.starbotapi.caldera.event.InventoryEvents;
 import com.starbotapi.caldera.item.*;
 import com.starbotapi.caldera.mob.*;
 import com.starbotapi.caldera.stats.StatsManager;
@@ -70,6 +71,7 @@ public final class Caldera extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ConnectionEvents(),this);
         getServer().getPluginManager().registerEvents(new DamageEvents(),this);
         getServer().getPluginManager().registerEvents(new InteractEvents(),this);
+        getServer().getPluginManager().registerEvents(new InventoryEvents(),this);
 
         getCommand("spawnitem").setExecutor(new SpawnItem());
         getCommand("prefabs").setExecutor(new PrefabsCommand());
@@ -92,6 +94,8 @@ public final class Caldera extends JavaPlugin {
         mobs.add(new NecroticZombie4BossMob());
         mobs.add(new NecroticZombie5BossMob());
         mobs.add(new SkeletalGuardMob());
+
+        item_prefabs.add(new IPCalderaMenu());
 
     }
 
