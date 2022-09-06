@@ -1,10 +1,13 @@
 package com.starbotapi.caldera.gui;
 
 import com.starbotapi.caldera.Caldera;
-import com.starbotapi.caldera.item.CalderaItem;
+import com.starbotapi.caldera.crafting.CraftingRecipe;
+import com.starbotapi.caldera.mob.CalderaMob;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,13 +23,13 @@ public class CraftingGUI implements Listener {
 
     private Inventory inventory;
 
-    private HashMap<Integer, ArrayList<CalderaItem>> items = new HashMap<>();
+    private HashMap<Integer, ArrayList<CraftingRecipe>> items = new HashMap<>();
 
     private int page;
 
     public CraftingGUI() {
         Caldera.p.getServer().getPluginManager().registerEvents(this,Caldera.p);
-        inventory = Bukkit.createInventory(null,54,"Prefab Items");
+        inventory = Bukkit.createInventory(null,54,"Crafting");
         loadPages();
         initItems();
         page = 0;
@@ -54,7 +57,7 @@ public class CraftingGUI implements Listener {
     private void loadPages() {
         int page = 0;
         int slot = 0;
-        for(CalderaItem item : Caldera.item_prefabs) {
+        for(CraftingRecipe item : Caldera.craftingRecipes) {
             items.putIfAbsent(page,new ArrayList<>());
             items.get(page).add(item);
             slot++;
@@ -81,8 +84,9 @@ public class CraftingGUI implements Listener {
         inventory.setItem(53,nodesc(Material.ARROW,"\2477Next Page"));
 
         int n = 0;
-        for(CalderaItem i : items.get(page)) {
-            inventory.setItem(n,i.asCraft());
+        items.putIfAbsent(page,new ArrayList<>());
+        for(CraftingRecipe i : items.get(page)) {
+            inventory.setItem(n,i.generateRecipeItem());
             n++;
         }
 
@@ -94,7 +98,11 @@ public class CraftingGUI implements Listener {
         if(e.getClickedInventory().equals(inventory)) {
             if(e.getSlot() < 45 && inventory.getItem(e.getSlot()) != null) {
                 ((Player)e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.NOTE_PLING,1F,2F);
-                e.getWhoClicked().getInventory().addItem(inventory.getItem(e.getSlot()));
+                net.minecraft.server.v1_8_R3.ItemStack nms = CraftItemStack.asNMSCopy(inventory.getItem(e.getSlot()));
+                NBTTagCompound tag = nms.getTag();
+                if(tag == null) tag = new NBTTagCompound();
+                NBTTagCompound cd = tag.getCompound("CalderaData");
+                Caldera.recipeFromID(cd.getString("id")).attempt((Player) e.getWhoClicked());
             } else if (e.getSlot() == 45) {
                 ((Player)e.getWhoClicked()).playSound(e.getWhoClicked().getLocation(), Sound.CLICK,1F,1F);
                 int pg = page--;
