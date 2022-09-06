@@ -32,7 +32,7 @@ public class CraftingRecipe {
             for(CalderaItem c : cost.keySet()) {
                 ItemStack rm = c.asCraft();
                 rm.setAmount(cost.get(c));
-                p.getInventory().remove(rm);
+                p.getInventory().removeItem(rm);
             }
             p.getInventory().addItem(result.asCraft());
         }
