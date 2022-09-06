@@ -19,6 +19,7 @@ import com.starbotapi.caldera.region.RegionManager;
 import com.starbotapi.caldera.stats.StatsManager;
 import com.starbotapi.caldera.util.SymbolUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -77,6 +78,7 @@ public final class Caldera extends JavaPlugin {
         }
         return new CraftingRecipe(new CalderaItem(),new HashMap<>());
     }
+    public static List<CalderaMobSpawn> mobSpawns = new ArrayList<>();
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -123,6 +125,12 @@ public final class Caldera extends JavaPlugin {
         });
 
         Bukkit.clearRecipes();
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Caldera.p,()->{
+            for(CalderaMobSpawn s : mobSpawns) {
+                s.run();
+            }
+        },600L,600L);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.starbotapi.caldera.region.RegionManager;
 import com.starbotapi.caldera.stats.PlayerStatsObject;
 import com.starbotapi.caldera.stats.StatsManager;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
+import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
