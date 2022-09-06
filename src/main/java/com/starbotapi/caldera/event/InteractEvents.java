@@ -55,7 +55,7 @@ public class InteractEvents implements Listener {
             e.setCancelled(true);
             MineableBlock b = RegionManager.getRegionOf(e.getClickedBlock().getLocation()).getMineable(e.getClickedBlock().getType());
             PlayerStatsObject so = ((PlayerStatsObject)StatsManager.statsObjects.get(e.getPlayer()));
-            if(b != null && CalderaItem.fromCraft(player.getItemInHand()).itemtype.equals(b.getToolType()) &&
+            if(b != null && (CalderaItem.fromCraft(player.getItemInHand()).itemtype.equals(b.getToolType()) || b.getStrength() == 0) &&
                     so.getValueOfStat("toolpower") >= b.getStrength()) {
                 isMining.putIfAbsent(e.getPlayer(),false);
                 if(isMining.get(e.getPlayer())) return;
