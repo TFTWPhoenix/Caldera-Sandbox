@@ -49,6 +49,8 @@ public class CalderaItem {
     public String comment = "";
     public String abilityID = "";
 
+    public byte data = (byte)0;
+
     public CalderaItem() {
 
     }
@@ -74,11 +76,12 @@ public class CalderaItem {
         copy.onAttack = onAttack;
         copy.comment = comment;
         copy.abilityID = abilityID;
+        copy.data = data;
         return copy;
     }
 
     public ItemStack asCraft() {
-        ItemStack i = new ItemStack(texture);
+        ItemStack i = new ItemStack(texture,1,data);
         if(textureHead) i = new ItemStack(Material.SKULL_ITEM,1,(byte)3);
         ItemMeta m = i.getItemMeta();
 
@@ -134,6 +137,7 @@ public class CalderaItem {
         cd.setString("head_texture",headTexture);
         cd.setBoolean("is_head_texture_base64",base64);
         cd.setString("comment",comment);
+        cd.setByte("data",data);
         String atex = "";
         for(String atl : abilityText) {
             if(!atex.equals("")) atex += "\\n";
@@ -181,6 +185,7 @@ public class CalderaItem {
         ci.itemtype = cd.getString("item_type");
         ci.texture = ((cd.getString("texture").equals("") ? Material.AIR : Material.valueOf(cd.getString("texture"))));
         ci.effectiveslot = cd.getInt("effectiveslot");
+        ci.data = cd.getByte("data");
         String[] stats = cd.getString("stats").split(",");
         for(String s : stats) {
             ci.stats.put(s,cd.getInt("stat_" + s));
