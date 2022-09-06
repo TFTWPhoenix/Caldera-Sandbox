@@ -17,6 +17,7 @@ import com.starbotapi.caldera.item.*;
 import com.starbotapi.caldera.mob.*;
 import com.starbotapi.caldera.stats.StatsManager;
 import com.starbotapi.caldera.util.SymbolUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -120,6 +121,8 @@ public final class Caldera extends JavaPlugin {
             CraftingGUI craftingGUI = new CraftingGUI();
             craftingGUI.open((Player) click.getWhoClicked());
         });
+
+        Bukkit.clearRecipes();
     }
 
     @Override
