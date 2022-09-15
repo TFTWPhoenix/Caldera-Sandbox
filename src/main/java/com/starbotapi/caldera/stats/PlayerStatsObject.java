@@ -1,6 +1,7 @@
 package com.starbotapi.caldera.stats;
 
 import com.starbotapi.caldera.Caldera;
+import com.starbotapi.caldera.event.CalderaStatsObjectApplyItemEvent;
 import com.starbotapi.caldera.event.CalderaStatsObjectTickEvent;
 import com.starbotapi.caldera.item.CalderaItem;
 import com.starbotapi.caldera.region.RegionManager;
@@ -106,14 +107,18 @@ public class PlayerStatsObject implements StatsObject {
         HashMap<String,Integer> sets = new HashMap<>();
         for(int i = 0; i < equipment.length; i++) {
             CalderaItem ci = CalderaItem.fromCraft(equipment[i]);
-            if(ci.effectiveslot != i) continue;
-            for(String s : ci.stats.keySet()) {
-                working.putIfAbsent(s,0);
-                working.put(s,working.get(s) + ci.stats.get(s));
-            }
-            if(!ci.setID.equals("")) {
-                sets.putIfAbsent(ci.setID,0);
-                sets.put(ci.setID,sets.get(ci.setID) + 1);
+            CalderaStatsObjectApplyItemEvent e = new CalderaStatsObjectApplyItemEvent(this,ci);
+            Bukkit.getPluginManager().callEvent(e);
+            if(!e.isCancelled()) {
+                if(ci.effectiveslot != i) continue;
+                for(String s : ci.stats.keySet()) {
+                    working.putIfAbsent(s,0);
+                    working.put(s,working.get(s) + ci.stats.get(s));
+                }
+                if(!ci.setID.equals("")) {
+                    sets.putIfAbsent(ci.setID,0);
+                    sets.put(ci.setID,sets.get(ci.setID) + 1);
+                }
             }
         }
         for(int i = 0; i < equipment.length; i++) {
