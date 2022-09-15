@@ -135,6 +135,12 @@ public class PlayerStatsObject implements StatsObject {
             working.put("mana",mprg);
         }
 
+        if(working.containsKey("hunger_value")) {
+            player.setFoodLevel(working.get("hunger_value"));
+        } else {
+            player.setFoodLevel(20);
+        }
+
         player.setWalkSpeed(0.002F * working.get("speed"));
 
         double hpperc = (double) working.get("health") / (double) working.get("max_health");
