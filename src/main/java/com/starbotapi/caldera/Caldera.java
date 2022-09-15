@@ -103,23 +103,7 @@ public final class Caldera extends JavaPlugin {
 
         item_prefabs.add(new IPCalderaMenu());
 
-        abilities.add(new FireballAbility());
-        abilities.add(new WitherSkullAbility());
-        abilities.add(new BowInstashootAbility());
-        abilities.add(new TeleportAbility());
-        abilities.add(new ExplosionAbility());
-        abilities.add(new TeleportExplosionAbility());
-        abilities.add(new ImpactAbility());
         abilities.add(new CalderaMenuAbility());
-
-        mobs.add(new MutatedZombieMob());
-        mobs.add(new NecroticZombie1BossMob());
-        mobs.add(new NecroticZombie2BossMob());
-        mobs.add(new NecroticZombie3BossMob());
-        mobs.add(new NecroticZombie4BossMob());
-        mobs.add(new NecroticZombie5BossMob());
-        mobs.add(new SkeletalGuardMob());
-
 
         CalderaMenuGUI.setButton(31, CalderaGUI.createGUIItem("\2473Crafting", Material.WORKBENCH,1,(byte)0,""), click ->{
             click.getWhoClicked().closeInventory();
