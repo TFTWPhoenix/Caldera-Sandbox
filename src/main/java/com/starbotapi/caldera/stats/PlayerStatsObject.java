@@ -1,6 +1,7 @@
 package com.starbotapi.caldera.stats;
 
 import com.starbotapi.caldera.Caldera;
+import com.starbotapi.caldera.event.CalderaStatsObjectTickEvent;
 import com.starbotapi.caldera.item.CalderaItem;
 import com.starbotapi.caldera.region.RegionManager;
 import com.starbotapi.caldera.util.SymbolUtil;
@@ -134,6 +135,8 @@ public class PlayerStatsObject implements StatsObject {
             working.put("health",hprg);
             working.put("mana",mprg);
         }
+
+        Bukkit.getPluginManager().callEvent(new CalderaStatsObjectTickEvent(this));
 
         if(working.containsKey("hunger_value")) {
             player.setFoodLevel(working.get("hunger_value"));

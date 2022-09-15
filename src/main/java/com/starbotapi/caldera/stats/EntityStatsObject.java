@@ -1,8 +1,10 @@
 package com.starbotapi.caldera.stats;
 
 import com.starbotapi.caldera.Caldera;
+import com.starbotapi.caldera.event.CalderaStatsObjectTickEvent;
 import com.starbotapi.caldera.mob.CalderaMob;
 import com.starbotapi.caldera.mob.MobDrop;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -97,6 +99,8 @@ public class EntityStatsObject implements StatsObject {
 
         nametag.setCustomName("\247c" + displayName + " \2478| \247c" + prettify(health) + "❤ \2474" + prettify(damage) + "⚔");
         nametag.teleport(spigot.getEyeLocation().add(0,0.5,0));
+
+        Bukkit.getPluginManager().callEvent(new CalderaStatsObjectTickEvent(this));
     }
 
     @Override
