@@ -14,6 +14,7 @@ public class MineableBlock {
     private String toolType;
     private int hardness;
     private int strength;
+    private byte data = 0;
 
     public MineableBlock(Material material,
                          Material replaceWith,
@@ -33,6 +34,28 @@ public class MineableBlock {
         this.toolType = toolType;
         this.hardness = hardness;
         this.strength = strength;
+    }
+
+    public MineableBlock(Material material,
+                         byte data,
+                         Material replaceWith,
+                         long ticksTillRegenerate,
+                         CalderaItem drop,
+                         int minDrop,
+                         int maxDrop,
+                         String toolType,
+                         int hardness,
+                         int strength) {
+        this.material = material;
+        this.replaceWith = replaceWith;
+        this.ticksTillRegenerate = ticksTillRegenerate;
+        this.drop = drop;
+        this.minDrop = minDrop;
+        this.maxDrop = maxDrop;
+        this.toolType = toolType;
+        this.hardness = hardness;
+        this.strength = strength;
+        this.data = data;
     }
 
     public Material getMaterial() {
@@ -69,5 +92,9 @@ public class MineableBlock {
 
     public int getStrength() {
         return strength;
+    }
+
+    public byte getData() {
+        return data;
     }
 }

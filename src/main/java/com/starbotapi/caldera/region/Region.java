@@ -4,6 +4,7 @@ import com.starbotapi.caldera.mining.MineableBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +31,9 @@ public class Region {
         return false;
     }
 
-    public MineableBlock getMineable(Material material) {
+    public MineableBlock getMineable(Block block) {
         for(MineableBlock b : mineableBlocks) {
-            if(b.getMaterial() == material) return b;
+            if(b.getMaterial() == block.getType() && b.getData() == block.getData()) return b;
         }
         return null;
     }

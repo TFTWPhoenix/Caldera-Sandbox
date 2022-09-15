@@ -55,7 +55,7 @@ public class InteractEvents implements Listener {
 
         if(e.getAction() == Action.LEFT_CLICK_BLOCK && e.getPlayer().getGameMode() == GameMode.SURVIVAL) {
             e.setCancelled(true);
-            MineableBlock b = RegionManager.getRegionOf(e.getClickedBlock().getLocation()).getMineable(e.getClickedBlock().getType());
+            MineableBlock b = RegionManager.getRegionOf(e.getClickedBlock().getLocation()).getMineable(e.getClickedBlock());
             PlayerStatsObject so = ((PlayerStatsObject)StatsManager.statsObjects.get(e.getPlayer()));
             if(b != null && (CalderaItem.fromCraft(player.getItemInHand()).itemtype.equals(b.getToolType()) || b.getStrength() == 0) &&
                     so.getValueOfStat("toolpower") >= b.getStrength()) {
@@ -75,7 +75,8 @@ public class InteractEvents implements Listener {
                 }
                 Bukkit.getScheduler().scheduleSyncDelayedTask(Caldera.p,()->{
                     e.getClickedBlock().setType(b.getReplaceWith());
-                    int amnt = b.getMinDrop() + (new Random()).nextInt(b.getMaxDrop() - b.getMinDrop());
+                    int amnt = b.getMinDrop();
+                    if(b.getMaxDrop() > b.getMinDrop()) amnt += (new Random()).nextInt(b.getMaxDrop() - b.getMinDrop());
                     ItemStack i = b.getDrop().asCraft();
                     i.setAmount(amnt);
                     e.getPlayer().getInventory().addItem(i);
