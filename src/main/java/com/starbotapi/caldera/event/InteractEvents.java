@@ -109,7 +109,9 @@ public class InteractEvents implements Listener {
 
     @EventHandler
     public static void breakBlock(BlockBreakEvent e) {
-        e.setCancelled(true);
+        if(e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+            e.setCancelled(true);
+        }
     }
 
 }
