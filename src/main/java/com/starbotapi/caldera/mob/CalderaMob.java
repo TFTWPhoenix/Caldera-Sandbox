@@ -55,7 +55,7 @@ public class CalderaMob {
         return i;
     }
 
-    public void spawn(Location loc) {
+    public LivingEntity spawn(Location loc) {
         LivingEntity entity = (LivingEntity) loc.getWorld().spawnEntity(loc,texture);
         EntityStatsObject so = new EntityStatsObject(entity);
         so.displayName = displayName;
@@ -66,6 +66,8 @@ public class CalderaMob {
         so.id = id;
         spawns2(entity,so);
         StatsManager.statsObjects.put(entity,so);
+
+        return entity;
     }
 
     protected void spawns2(LivingEntity e, EntityStatsObject s) {
