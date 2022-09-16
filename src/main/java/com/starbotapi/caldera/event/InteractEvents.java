@@ -87,6 +87,7 @@ public class InteractEvents implements Listener {
                     isMining.put(e.getPlayer(),false);
                     Bukkit.getScheduler().scheduleSyncDelayedTask(Caldera.p,()->{
                         e.getClickedBlock().setType(b.getMaterial());
+                        e.getClickedBlock().setData(b.getData());
                     },b.getTicksTillRegenerate());
                 },ticksToMine);
             }
