@@ -4,8 +4,10 @@ import com.starbotapi.caldera.Caldera;
 import com.starbotapi.caldera.item.CalderaItem;
 import com.starbotapi.caldera.mining.MineableBlock;
 import com.starbotapi.caldera.region.RegionManager;
+import com.starbotapi.caldera.stats.NPCStatsObject;
 import com.starbotapi.caldera.stats.PlayerStatsObject;
 import com.starbotapi.caldera.stats.StatsManager;
+import com.starbotapi.caldera.stats.StatsObject;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import org.bukkit.Bukkit;
@@ -17,6 +19,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.xenondevs.particle.ParticleBuilder;
@@ -93,6 +96,13 @@ public class InteractEvents implements Listener {
     public static void placeBlock(BlockPlaceEvent e) {
         if(e.getPlayer().getGameMode() != GameMode.CREATIVE) {
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public static void interactAt(PlayerInteractAtEntityEvent e) {
+        if(StatsManager.statsObjects.containsKey(e.getRightClicked()) && StatsManager.statsObjects.get(e.getRightClicked()) instanceof NPCStatsObject) {
+            ((NPCStatsObject)StatsManager.statsObjects.get(e.getRightClicked())).onClick(e);
         }
     }
 
