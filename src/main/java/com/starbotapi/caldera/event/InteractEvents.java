@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -104,6 +105,11 @@ public class InteractEvents implements Listener {
         if(StatsManager.statsObjects.containsKey(e.getRightClicked()) && StatsManager.statsObjects.get(e.getRightClicked()) instanceof NPCStatsObject) {
             ((NPCStatsObject)StatsManager.statsObjects.get(e.getRightClicked())).onClick(e);
         }
+    }
+
+    @EventHandler
+    public static void breakBlock(BlockBreakEvent e) {
+        e.setCancelled(true);
     }
 
 }
